@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane prefHeight="595.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <TabPane fx:id="mainTabPane" layoutX="285.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="srcDbTab" onSelectionChanged="#dbSectionChanged" text="Рейтинг Преподавателей">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="dbTable" layoutX="52.0" layoutY="-1.0" prefHeight="538.0" prefWidth="718.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="174.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                              <TableColumn fx:id="numberCol" prefWidth="39.0" text="№">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="number" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="199.0" text="ФИО">
+                                  <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <!--<TableColumn fx:id="dep" prefWidth="136.0" text="Dep">-->
+                                 <!--<cellValueFactory><PropertyValueFactory property="dep" /></cellValueFactory>-->
+                              <!--</TableColumn>-->
+                              <TableColumn prefWidth="105.0" text="X1" fx:id="x1Column">
+                                  <cellValueFactory>
+                                    <PropertyValueFactory property="x1" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="96.0" text="X2" fx:id="x2Column">
+                                  <cellValueFactory>
+                                    <PropertyValueFactory property="x2" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="91.0" text="X3" fx:id="x3Column">
+                                  <cellValueFactory>
+                                    <PropertyValueFactory property="x3" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn minWidth="4.0" prefWidth="84.0" text="X4" fx:id="x4Column">
+                                  <cellValueFactory>
+                                    <PropertyValueFactory property="x4" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="ratingCol" prefWidth="89.0" text="Рейтинг">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="rating" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                          </columns>
+                        </TableView>
+                        <ComboBox fx:id="depChooser" layoutX="738.0" layoutY="39.0" onAction="#onDepChoose" prefWidth="150.0" promptText="ВСЕ" AnchorPane.topAnchor="39.0" />
+                        <Label layoutX="758.0" layoutY="14.0" text="Выберите кафедру: " />
+                        <TextField fx:id="mas1" alignment="TOP_CENTER" layoutX="738.0" layoutY="98.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
+                        <TextField fx:id="mas2" alignment="TOP_CENTER" layoutX="738.0" layoutY="127.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
+                        <TextField fx:id="mas3" alignment="TOP_CENTER" layoutX="738.0" layoutY="155.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
+                        <TextField fx:id="mas4" alignment="TOP_CENTER" layoutX="738.0" layoutY="185.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
+                        <Label layoutX="776.0" layoutY="74.0" text="Задайте веса:" />
+                        <Label layoutX="832.0" layoutY="102.0" text="для X1" />
+                        <Label layoutX="832.0" layoutY="131.0" text="для X2" />
+                        <Label layoutX="832.0" layoutY="159.0" text="для X3" />
+                        <Label layoutX="832.0" layoutY="189.0" text="для X4" />
+                        <Label layoutX="755.0" layoutY="230.0" prefHeight="39.0" prefWidth="116.0" text="Выберите методику оценки: " textAlignment="CENTER" wrapText="true" />
+                        <ComboBox fx:id="ratingChooser" layoutX="738.0" layoutY="274.0" onAction="#onRatingChooser" prefWidth="150.0" promptText="Интегральная" />
+                        <Button layoutX="775.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCalculate" text="Рассчитать" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Рейтинг Кафедр">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TabPane layoutX="108.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <tabs>
+                            <Tab onSelectionChanged="#onDepRating1" text="Рейтинг 1">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе интегральной оценки преподавателей с использованием порога. Для оценки кафедры используется порог, с помощью которого выделяются наиболее активные преподаватели кафедры. Порог выбирается как среднее значение рейтинга преподавателей." textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                           <TableView fx:id="tkTable" layoutX="29.0" layoutY="152.0" prefHeight="332.0" prefWidth="369.0" AnchorPane.leftAnchor="30.0">
+                                               <columns>
+                                                   <TableColumn fx:id="numberTkCol" prefWidth="50.0" text="№">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="number" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                                   <TableColumn fx:id="nameTkCol" prefWidth="200.0" text="ФИО">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="name" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                                   <TableColumn fx:id="ratingTkCol" prefWidth="100.0" text="Рейтинг">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="rating" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                               </columns>
+                                           </TableView>
+                                          <ComboBox fx:id="tkChooser" layoutX="139.0" layoutY="111.0" onAction="#onTkChoose" prefWidth="150.0" />
+                                          <Label layoutX="161.0" layoutY="87.0" text="Выберите кафедру:" />
+                                          <Label fx:id="borderLabel" layoutX="164.0" layoutY="495.0" text="Порог: кафедра не выбрана">
+                                             <font>
+                                                <Font name="System Bold Italic" size="12.0" />
+                                             </font>
+                                          </Label>
+                                           <TableView fx:id="rating1Table" layoutX="493.0" layoutY="152.0" prefHeight="332.0" prefWidth="369.0" AnchorPane.rightAnchor="30.0">
+                                               <columns>
+                                                <TableColumn fx:id="numberRatingCol" prefWidth="28.0" text="№">
+                                                   <cellValueFactory>
+                                                      <PropertyValueFactory property="number" />
+                                                   </cellValueFactory>
+                                                </TableColumn>
+                                                   <TableColumn fx:id="depRatingCol" prefWidth="84.0" text="Кафедра">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="dep" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                                   <TableColumn fx:id="sumRatingCol" prefWidth="115.0" text="Сумма &#10;рейтингов &#10;преподавателей">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="sum" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                                   <TableColumn fx:id="borderRatingCol" prefWidth="55.0" text="Порог">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="border" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                                   <TableColumn fx:id="ratRatingCol" prefWidth="64.0" text="Рейтинг">
+                                                       <cellValueFactory>
+                                                           <PropertyValueFactory property="rating" />
+                                                       </cellValueFactory>
+                                                   </TableColumn>
+                                               </columns>
+                                           </TableView>
+                                          <Label layoutX="633.0" layoutY="115.0" text="Рейтинг кафедр:" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Рейтинг 2">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <Label layoutX="406.0" layoutY="252.0" text="В разработке...">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
