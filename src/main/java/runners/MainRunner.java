@@ -12,6 +12,7 @@ public class MainRunner extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Main.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/static/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Система расчета рейтинга кафедр");
         primaryStage.setResizable(false);

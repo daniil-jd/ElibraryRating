@@ -8,13 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import model.RatingModel;
 import model.TeacherModel;
@@ -76,6 +70,9 @@ public class MainController {
     private TableColumn numberTkCol = new TableColumn();
 
     @FXML
+    private TableColumn<TeacherModel, Double> ratingTkCol;
+
+    @FXML
     private ComboBox<String> tkChooser = new ComboBox<>();
 
     @FXML
@@ -86,6 +83,12 @@ public class MainController {
 
     @FXML
     private TableColumn numberRatingCol = new TableColumn();
+
+    @FXML
+    private TableColumn<RatingModel, Double> borderRatingCol;
+
+    @FXML
+    private TableColumn<RatingModel, Double> ratRatingCol;
 
     private TeacherDAO teacherDAO;
 
@@ -241,7 +244,11 @@ public class MainController {
         if ("Интегральная".equals(
                 ratingChooser.getSelectionModel().getSelectedItem())) {
             integrateCalculate(m1, m2, m3, m4);
+        } else if (ratingChooser.getSelectionModel().getSelectedItem() == null) {
+            integrateCalculate(m1, m2, m3, m4);
         }
+
+        depChooser.getSelectionModel().select("ВСЕ");
 
         setTeachersTable((FXCollections
                 .observableArrayList(teacherDAO.getAll())));
@@ -274,6 +281,26 @@ public class MainController {
      */
     private void setTeachersTable(ObservableList<TeacherModel> teachers) {
         dbTable.setItems(teachers);
+        dbTable.sortPolicyProperty().set(
+                new Callback<TableView<TeacherModel>, Boolean>() {
+                    @Override
+                    public Boolean call(TableView<TeacherModel> param) {
+                        Comparator<TeacherModel> comparator = new Comparator<TeacherModel>() {
+                            @Override
+                            public int compare(TeacherModel r1, TeacherModel r2) {
+                                if (r1.getRating() > r2.getRating()) {
+                                    return 0;
+                                } else if (r1.getRating() <= r2.getRating()) {
+                                    return 1;
+                                }
+                                return 1;
+                            }
+                        };
+                        FXCollections.sort(dbTable.getItems(), comparator);
+                        return true;
+                    }
+                });
+        dbTable.sort();
         dbTable.refresh();
     }
 
@@ -301,6 +328,25 @@ public class MainController {
                 = FXCollections.observableArrayList(teacherDAO.getAll());
         setNumberTkTableView();
         tkChooser.setItems(FXCollections.observableArrayList(teacherDAO.getAllDep(false)));
+
+        Callback factory = new Callback<TableColumn<RatingModel, Double>, TableCell<RatingModel, Double>>() {
+            @Override
+            public TableCell<RatingModel, Double> call(TableColumn<RatingModel, Double> param) {
+                return new TableCell<RatingModel, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(String.format("%.3f", item));
+                        }
+                    }
+                };
+            }
+        };
+        borderRatingCol.setCellFactory(factory);
+        ratRatingCol.setCellFactory(factory);
         setTkTable(teachers);
         setRatingDepTable();
     }
@@ -321,6 +367,31 @@ public class MainController {
         //вычисление порога как срзнач оценок преподавателей
         border = teacherDAO.getRatingSumByDep(selectedDep) / teachers.size();
         borderLabel.setText("Порог: " + String.format("%.3f", border));
+
+        //изменение цвета ячеек "Рейтинг"
+        Callback factory = new Callback<TableColumn<TeacherModel, Double>, TableCell<TeacherModel, Double>>() {
+            @Override
+            public TableCell<TeacherModel, Double> call(TableColumn<TeacherModel, Double> param) {
+                return new TableCell<TeacherModel, Double>() {
+
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(String.format("%.1f", item));
+                            if (border > item) {
+                                this.setStyle("-fx-text-fill: " + "red" + ";");
+                            } else {
+                                this.setStyle("-fx-text-fill: " + "black" + ";");
+                            }
+                        }
+                    }
+                };
+            }
+        };
+        ratingTkCol.setCellFactory(factory);
     }
 
 
@@ -343,6 +414,25 @@ public class MainController {
      */
     private void setTkTable(ObservableList<TeacherModel> teachers) {
         tkTable.setItems(teachers);
+        tkTable.sortPolicyProperty().set(
+                new Callback<TableView<TeacherModel>, Boolean>() {
+                    @Override
+                    public Boolean call(TableView<TeacherModel> param) {
+                        Comparator<TeacherModel> comparator = new Comparator<TeacherModel>() {
+                            @Override
+                            public int compare(TeacherModel r1, TeacherModel r2) {
+                                if (r1.getRating() > r2.getRating()) {
+                                    return 0;
+                                } else if (r1.getRating() <= r2.getRating()) {
+                                    return 1;
+                                }
+                                return 1;
+                            }
+                        };
+                        FXCollections.sort(tkTable.getItems(), comparator);
+                        return true;
+                    }
+                });
         tkTable.refresh();
     }
 
