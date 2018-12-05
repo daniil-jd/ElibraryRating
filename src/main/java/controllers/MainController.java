@@ -319,9 +319,22 @@ public class MainController {
 
 
     //---------Кафедры------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Обработчик события переключения на таб кафедр.
+     * @param event не используется
+     * @throws IOException ошибка чтения конфигов
+     * @throws SQLException ошибка базы
+     */
+    public void onDepRating(Event event) throws IOException, SQLException {
+        onDepRating1(event);
+    }
+
     /**
      * Обработчик события переключения на таб "Рейтинг 1".
      * @param event не используется
+     * @throws IOException ошибка чтения конфигов
+     * @throws SQLException ошибка базы
      */
     public void onDepRating1(Event event) throws IOException, SQLException {
         ObservableList<TeacherModel> teachers
@@ -453,6 +466,7 @@ public class MainController {
             double rating = ((double)active / size) * sum;
             ratingsDep.add(new RatingModel(deps.get(i), sum, border, rating));
         }
+        System.out.println(ratingsDep);
         setRating1Table(FXCollections.observableArrayList(ratingsDep));
     }
 
