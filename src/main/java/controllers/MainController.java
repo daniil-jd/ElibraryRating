@@ -14,6 +14,7 @@ import model.RatingModel;
 import model.TeacherModel;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -89,6 +90,31 @@ public class MainController {
 
     @FXML
     private TableColumn<RatingModel, Double> ratRatingCol;
+
+    //----Ведение БД------------------------------------------------------------------------------------
+    @FXML
+    private TextField dbFioFiled;
+
+    @FXML
+    private ComboBox<String> dbExistDepBox;
+
+    @FXML
+    private TextField dbNewDepField;
+
+    @FXML
+    private TextField dbX1Field;
+
+    @FXML
+    private TextField dbX2Field;
+
+    @FXML
+    private TextField dbX3Field;
+
+    @FXML
+    private TextField dbX4Field;
+
+    @FXML
+    private ListView<TeacherModel> dbView = new ListView<>();
 
     private TeacherDAO teacherDAO;
 
@@ -466,7 +492,6 @@ public class MainController {
             double rating = ((double)active / size) * sum;
             ratingsDep.add(new RatingModel(deps.get(i), sum, border, rating));
         }
-        System.out.println(ratingsDep);
         setRating1Table(FXCollections.observableArrayList(ratingsDep));
     }
 
@@ -491,5 +516,131 @@ public class MainController {
         rating1Table.setItems(ratings);
         setNumberRating1TableView();
         rating1Table.refresh();
+    }
+
+
+    //---------Ведение ДБ-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Событие переключения на раздел ведения бд.
+     * @param event не используется
+     */
+    public void onDbSection(Event event)
+            throws IOException, SQLException {
+        if (teacherDAO == null)
+            teacherDAO = new TeacherDAO();
+
+        dbExistDepBox.setItems(
+                FXCollections.observableArrayList(teacherDAO.getAllDep(false)));
+
+        List<TeacherModel> teachers
+                = teacherDAO.getAll();
+
+        dbView.setItems(FXCollections.observableArrayList(teachers));
+        dbView.refresh();
+    }
+
+    /**
+     * Создание/изменение записи в БД.
+     * @param actionEvent не используется
+     */
+    public void onDbCreateOrUpdate(ActionEvent actionEvent)
+            throws IOException, SQLException {
+        if (dbFioFiled.getText().equals("")
+                || (dbExistDepBox.getSelectionModel().getSelectedItem() == null
+                && dbNewDepField.getText().equals(""))) {
+            showAlertWithHeaderText("Не введены данные",
+                    "Не введены данные",
+                    "Введите обязательные данные: ФИО, кафедра");
+            return;
+        }
+        int x1 = 0, x2 = 0, x3 = 0, x4 = 0;
+        try {
+            x1 = Integer.parseInt(dbX1Field.getText());
+        } catch (NumberFormatException e) {
+        }
+        try {
+            x2 = Integer.parseInt(dbX2Field.getText());
+        } catch (NumberFormatException e) {
+        }
+        try {
+            x3 = Integer.parseInt(dbX3Field.getText());
+        } catch (NumberFormatException e) {
+        }
+        try {
+            x4 = Integer.parseInt(dbX4Field.getText());
+        } catch (NumberFormatException e) {
+        }
+        String dep = null;
+        if (!dbNewDepField.getText().equals("")) {
+            dep = dbNewDepField.getText();
+        } else {
+            dep = dbExistDepBox.getSelectionModel().getSelectedItem();
+        }
+        TeacherModel teacher
+                = new TeacherModel(dbFioFiled.getText(),
+                dep, x1, x2, x3, x4, 0.0);
+
+        if (teacherDAO.getByName(teacher.getName()) != null) {
+            //update
+            if (teacherDAO.update(teacher) != 1) {
+                throw new ExportException("Ведение бд: запись не добавлена/добавлена некорректно."
+                        + "\n"
+                        + "Преподаватель: " + teacher);
+            }
+        } else {
+            //create
+            if (teacherDAO.insert(teacher)) {
+                throw new ExportException("Ведение бд: запись не добавлена/добавлена некорректно."
+                        + "\n"
+                        + "Преподаватель: " + teacher);
+            }
+        }
+
+        onDbSection(actionEvent);
+    }
+
+    /**
+     * Сообщение об ошибке ввода данных для создания записи в бд.
+     * @param title титул
+     * @param header хэдер
+     * @param text текст
+     */
+    private void showAlertWithHeaderText(String title,
+                                         String header,
+                                         String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+    }
+
+    /**
+     * Изменение секции в табах дб.
+     * @param actionEvent не используется
+     */
+    public void onDbDepChooser(ActionEvent actionEvent)
+            throws IOException, SQLException {
+        //?
+    }
+
+
+    /**
+     * Удаление выбранного в лист вью преподавателя.
+     * @param actionEvent не используется
+     */
+    public void onDbDeleteTeacher(ActionEvent actionEvent)
+            throws IOException, SQLException {
+        TeacherModel teacher = dbView.getSelectionModel().getSelectedItem();
+        if (teacher != null) {
+            if (teacherDAO.delete(teacher)) {
+                throw new ExportException("Ведение бд: не удается удалить запись."
+                        + "\n"
+                        + "Преподаватель: " + teacher);
+            }
+        }
+        onDbSection(actionEvent);
     }
 }

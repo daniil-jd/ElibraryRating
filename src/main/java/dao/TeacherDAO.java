@@ -28,6 +28,9 @@ public class TeacherDAO {
     private final String SQL_INSERT = "INSERT INTO TEACHER (name, DEP, X1, X2, X3, X4, RATING) VALUES (?,?,?,?,?,?,?)";
 
     //language=SQL
+    private final String SQL_DELETE = "DELETE FROM TEACHER WHERE name = ?";
+
+    //language=SQL
     private final String SQL_SELECT_BY_DEP = "SELECT * FROM TEACHER WHERE DEP = ?";
 
     private JdbcDataSource setDbSettings() throws IOException {
@@ -42,7 +45,7 @@ public class TeacherDAO {
         return dataSource;
     }
 
-    public void insert(TeacherModel teacher) throws SQLException, IOException {
+    public boolean insert(TeacherModel teacher) throws SQLException, IOException {
         PreparedStatement statement = reconnect().prepareStatement(SQL_INSERT);
         statement.setString(1, teacher.getName());
         statement.setString(2, teacher.getDep());
@@ -53,9 +56,10 @@ public class TeacherDAO {
         statement.setDouble(7, teacher.getRating());
 
 
-        statement.execute();
+        boolean res = statement.execute();
         statement.close();
         close();
+        return res;
     }
 
     public List<TeacherModel> getAll() throws SQLException, IOException {
@@ -85,7 +89,7 @@ public class TeacherDAO {
         statement.setString(1, name);
         ResultSet resultSet = statement.executeQuery();
 
-        TeacherModel teacher = new TeacherModel();
+        TeacherModel teacher = null;
         if (resultSet.next()) {
             teacher = new TeacherModel(
                     resultSet.getString(6),
@@ -102,7 +106,7 @@ public class TeacherDAO {
         return teacher;
     }
 
-    public void update(TeacherModel teacher) throws SQLException, IOException {
+    public int update(TeacherModel teacher) throws SQLException, IOException {
         PreparedStatement statement = reconnect().prepareStatement(SQL_UPDATE);
         statement.setString(1, teacher.getDep());
         statement.setInt(2, teacher.getX1());
@@ -111,11 +115,24 @@ public class TeacherDAO {
         statement.setInt(5, teacher.getX4());
         statement.setDouble(6, teacher.getRating());
         statement.setString(7, teacher.getName());
-        statement.executeUpdate();
+        int res = statement.executeUpdate();
         statement.close();
         close();
         getAll();
+        return res;
     }
+
+    public boolean delete(TeacherModel teacher) throws IOException, SQLException {
+        PreparedStatement statement = reconnect().prepareStatement(SQL_DELETE);
+        statement.setString(1, teacher.getName());
+
+        boolean res = statement.execute();
+        statement.close();
+        close();
+        getAll();
+        return res;
+    }
+
 
     /**
      * Находит уникальные кафедры университета.
