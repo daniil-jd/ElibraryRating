@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
@@ -178,6 +180,41 @@
                      </children></AnchorPane>
             </content>
           </Tab>
+            <Tab onSelectionChanged="#onDbSection" text="Ведение БД">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="TOP_CENTER" layoutX="13.0" layoutY="21.0" prefHeight="40.0" prefWidth="400.0" text="Для добавления нового преподавателя, введите данные в форму. " textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="444.0" AnchorPane.topAnchor="21.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="dbView" layoutX="536.0" layoutY="91.0" prefHeight="418.0" prefWidth="376.0" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="30.0" />
+                        <Label layoutX="233.0" layoutY="89.0" text="ФИО" />
+                        <TextField fx:id="dbFioFiled" alignment="TOP_CENTER" layoutX="120.0" layoutY="111.0" prefHeight="25.0" prefWidth="252.0" promptText="ФИО" />
+                        <TextField fx:id="dbX1Field" alignment="TOP_CENTER" layoutX="171.0" layoutY="256.0" prefHeight="25.0" prefWidth="150.0" promptText="Х1" />
+                        <Label layoutX="153.0" layoutY="234.0" text="X1 - Индекс Хирша по ядру РИНЦ" />
+                        <Label layoutX="115.0" layoutY="288.0" text="X2 - Индекс Хирша без учета самоцитирований" />
+                        <TextField fx:id="dbX2Field" alignment="TOP_CENTER" layoutX="172.0" layoutY="313.0" promptText="Х2" />
+                        <Label layoutX="97.0" layoutY="345.0" text="X3 - Индекс Хирша с учетом только статей в журналах" />
+                        <TextField fx:id="dbX3Field" alignment="TOP_CENTER" layoutX="173.0" layoutY="368.0" promptText="Х3" />
+                        <TextField fx:id="dbX4Field" alignment="TOP_CENTER" layoutX="174.0" layoutY="429.0" promptText="Х4" />
+                        <Label layoutX="125.0" layoutY="404.0" text="X4 - Индекс Хирша по публикациям в РИНЦ" />
+                        <ComboBox fx:id="dbExistDepBox" layoutX="79.0" layoutY="190.0" onAction="#onDbDepChooser" prefHeight="25.0" prefWidth="150.0" promptText="Кафедра" />
+                        <Label layoutX="61.0" layoutY="164.0" text="Выбрать существующую кафедру" />
+                        <Label alignment="TOP_CENTER" layoutX="485.0" layoutY="21.0" prefHeight="40.0" prefWidth="400.0" text="Для редактирования существующего, выберите его из списка и измените нужные поля." textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="321.0" layoutY="164.0" text="Добавить кафедру" />
+                        <TextField fx:id="dbNewDepField" alignment="TOP_CENTER" layoutX="299.0" layoutY="190.0" prefHeight="25.0" prefWidth="150.0" promptText="Новая кафедра" />
+                        <Button layoutX="183.0" layoutY="524.0" mnemonicParsing="false" onAction="#onDbCreateOrUpdate" text="Добавить/изменить" />
+                        <Button layoutX="577.0" layoutY="524.0" mnemonicParsing="false" onAction="#onDbDeleteTeacher" text="Удалить выбранного преподавателя" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
