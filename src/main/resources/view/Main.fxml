@@ -189,7 +189,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="dbView" layoutX="536.0" layoutY="91.0" prefHeight="418.0" prefWidth="376.0" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="30.0" />
+                        <ListView fx:id="dbView" layoutX="536.0" layoutY="91.0" onMouseClicked="#OnDbViewClick" prefHeight="418.0" prefWidth="376.0" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="30.0" />
                         <Label layoutX="233.0" layoutY="89.0" text="ФИО" />
                         <TextField fx:id="dbFioFiled" alignment="TOP_CENTER" layoutX="120.0" layoutY="111.0" prefHeight="25.0" prefWidth="252.0" promptText="ФИО" />
                         <TextField fx:id="dbX1Field" alignment="TOP_CENTER" layoutX="171.0" layoutY="256.0" prefHeight="25.0" prefWidth="150.0" promptText="Х1" />

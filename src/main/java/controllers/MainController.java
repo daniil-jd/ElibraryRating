@@ -9,9 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import model.RatingModel;
 import model.TeacherModel;
+import utils.CalculateUtil;
 
 import java.io.IOException;
 import java.rmi.server.ExportException;
@@ -42,6 +44,9 @@ public class MainController {
 
     @FXML
     private TableColumn<TeacherModel, Integer> x4Column;
+
+    @FXML
+    private TableColumn<TeacherModel, Double> ratingCol;
 
     @FXML
     private TableColumn numberCol = new TableColumn();
@@ -81,6 +86,9 @@ public class MainController {
 
     @FXML
     private TableView<RatingModel> rating1Table = new TableView<>();
+
+    @FXML
+    private TableColumn sumRatingCol = new TableColumn();
 
     @FXML
     private TableColumn numberRatingCol = new TableColumn();
@@ -128,6 +136,7 @@ public class MainController {
         teacherDAO = new TeacherDAO();
         List<String> ratings = new ArrayList<>();
         ratings.add("Интегральная");
+        ratings.add("Макс. показатель");
         ratingChooser.setItems(FXCollections.observableArrayList(ratings));
 
         numberCol.setSortType(TableColumn.SortType.ASCENDING);
@@ -205,6 +214,26 @@ public class MainController {
                 = FXCollections.observableArrayList(teacherDAO.getAll());
         setNumberTeacherTableView();
         depChooser.setItems(FXCollections.observableArrayList(teacherDAO.getAllDep(true)));
+
+        Callback factory = new Callback<TableColumn<TeacherModel, Double>, TableCell<TeacherModel, Double>>() {
+            @Override
+            public TableCell<TeacherModel, Double> call(TableColumn<TeacherModel, Double> param) {
+                return new TableCell<TeacherModel, Double>() {
+
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(String.format("%.3f", item));
+                        }
+                    }
+                };
+            }
+        };
+        ratingCol.setCellFactory(factory);
+
         setTeachersTable(teachers);
     }
 
@@ -270,6 +299,9 @@ public class MainController {
         if ("Интегральная".equals(
                 ratingChooser.getSelectionModel().getSelectedItem())) {
             integrateCalculate(m1, m2, m3, m4);
+        } else if ("Макс. показатель".equals(
+                ratingChooser.getSelectionModel().getSelectedItem())) {
+            CalculateUtil.maxAvailableRating();
         } else if (ratingChooser.getSelectionModel().getSelectedItem() == null) {
             integrateCalculate(m1, m2, m3, m4);
         }
@@ -386,6 +418,8 @@ public class MainController {
         };
         borderRatingCol.setCellFactory(factory);
         ratRatingCol.setCellFactory(factory);
+        ratingTkCol.setCellFactory(factory);
+        sumRatingCol.setCellFactory(factory);
         setTkTable(teachers);
         setRatingDepTable();
     }
@@ -419,7 +453,7 @@ public class MainController {
                         if (empty || item == null) {
                             setText(null);
                         } else {
-                            setText(String.format("%.1f", item));
+                            setText(String.format("%.3f", item));
                             if (border > item) {
                                 this.setStyle("-fx-text-fill: " + "red" + ";");
                             } else {
@@ -642,5 +676,22 @@ public class MainController {
             }
         }
         onDbSection(actionEvent);
+    }
+
+    /**
+     * Событие нажатия на запись в dbView.
+     * Устанавливаются значения преподавателя из БД.
+     * @param mouseEvent не используется
+     */
+    public void OnDbViewClick(MouseEvent mouseEvent) {
+        TeacherModel teacher = dbView.getSelectionModel().getSelectedItem();
+        if (teacher != null) {
+            dbFioFiled.setText(teacher.getName());
+            dbExistDepBox.getSelectionModel().select(teacher.getDep());
+            dbX1Field.setText(teacher.getX1() + "");
+            dbX2Field.setText(teacher.getX2() + "");
+            dbX3Field.setText(teacher.getX3() + "");
+            dbX4Field.setText(teacher.getX4() + "");
+        }
     }
 }
