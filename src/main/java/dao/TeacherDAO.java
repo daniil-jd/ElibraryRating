@@ -5,6 +5,7 @@ import org.h2.jdbcx.JdbcDataSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +38,9 @@ public class TeacherDAO {
         JdbcDataSource dataSource = new JdbcDataSource();
         Properties properties = new Properties();
 
-        properties.load(new FileInputStream("target/classes/db.properties"));
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream stream = cl.getResourceAsStream("db.properties");
+        properties.load(stream);
 
         dataSource.setURL(properties.getProperty("db.url"));
         dataSource.setUser(properties.getProperty("db.username"));
