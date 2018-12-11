@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import model.Rating2Model;
 import model.RatingModel;
 import model.TeacherModel;
 import utils.CalculateUtil;
@@ -98,6 +99,18 @@ public class MainController {
 
     @FXML
     private TableColumn<RatingModel, Double> ratRatingCol;
+
+    @FXML
+    private TableView<Rating2Model> rating2Table = new TableView<>();
+
+    @FXML
+    private TableColumn numberRatings2 = new TableColumn();
+
+    @FXML
+    private TableColumn rating2AverCol = new TableColumn();
+
+    @FXML
+    private TableColumn rating2IndivCol = new TableColumn();
 
     //----Ведение БД------------------------------------------------------------------------------------
     @FXML
@@ -377,7 +390,7 @@ public class MainController {
 
 
     //---------Кафедры------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    //---------Рейтинг кафедры 1----------------------------------------------------------------------------------------------------------------------------------------------------------------
     /**
      * Обработчик события переключения на таб кафедр.
      * @param event не используется
@@ -386,6 +399,7 @@ public class MainController {
      */
     public void onDepRating(Event event) throws IOException, SQLException {
         onDepRating1(event);
+        onDepRating2(event);
     }
 
     /**
@@ -552,6 +566,70 @@ public class MainController {
         rating1Table.refresh();
     }
 
+    //---------Рейтинг кафедры 2----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Событие переключения на вкладку с расчетом рейтинга 2.
+     * @param event не используется
+     */
+    public void onDepRating2(Event event) throws IOException, SQLException {
+        ObservableList<Rating2Model> ratings
+                = FXCollections.observableArrayList(CalculateUtil.calculateRatingDep2());
+        setNumberRatings2TableView();
+
+        Callback factory = new Callback<TableColumn<Rating2Model, Double>, TableCell<Rating2Model, Double>>() {
+            @Override
+            public TableCell<Rating2Model, Double> call(TableColumn<Rating2Model, Double> param) {
+                return new TableCell<Rating2Model, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(String.format("%.3f", item));
+                        }
+                    }
+                };
+            }
+        };
+        rating2AverCol.setCellFactory(factory);
+        rating2IndivCol.setCellFactory(factory);
+        setRatings2Table(ratings);
+    }
+
+    private void setNumberRatings2TableView() {
+        numberRatings2.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Rating2Model, String>, ObservableValue<String>>() {
+            @Override public ObservableValue<String> call(TableColumn.CellDataFeatures<Rating2Model, String> p) {
+                return new ReadOnlyObjectWrapper((rating2Table.getItems().indexOf(p.getValue()) + 1) + "");
+            }
+        });
+        numberTkCol.setSortable(false);
+    }
+
+    private void setRatings2Table(ObservableList<Rating2Model> ratings) {
+        rating2Table.setItems(ratings);
+        rating2Table.sortPolicyProperty().set(new Callback<TableView<Rating2Model>, Boolean>() {
+            @Override
+            public Boolean call(TableView<Rating2Model> param) {
+                Comparator<Rating2Model> comparator = new Comparator<Rating2Model>() {
+                    @Override
+                    public int compare(Rating2Model r1, Rating2Model r2) {
+                        if (r1.getRating() > r2.getRating()) {
+                            return 0;
+                        } else if (r1.getRating() <= r2.getRating()) {
+                            return 1;
+                        }
+                        return 1;
+                    }
+                };
+                FXCollections.sort(rating2Table.getItems(), comparator);
+                return true;
+            }
+        });
+
+        rating2Table.refresh();
+    }
 
     //---------Ведение ДБ-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
