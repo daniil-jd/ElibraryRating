@@ -2,6 +2,7 @@ package utils;
 
 import dao.TeacherDAO;
 import model.Rating2Model;
+import model.Rating3Model;
 import model.TeacherModel;
 
 import java.io.IOException;
@@ -66,6 +67,24 @@ public class CalculateUtil {
             double rating = getRatingDep(teacherDAO.getByDep(dep));
             String mark = getMarkOnRating(average, rating);
             ratings.add(new Rating2Model(dep, average, rating, mark));
+        }
+        return ratings;
+    }
+
+    /**
+     * Вычисляет рейнтиг кафедры по третьему методу.
+     * Вычисялется сумма рейтингов преподов кафедры, вычисляется средний рейтинг
+     * @return рейтинг
+     * @throws IOException ошибка чтения файлов из конфига
+     * @throws SQLException ошибка подключения к базе
+     */
+    public static List<Rating3Model> calculateRatingDep3() throws IOException, SQLException {
+        List<Rating3Model> ratings = new ArrayList<>();
+
+        for (String dep : teacherDAO.getAllDep(false)) {
+            double rating = getRatingDep(teacherDAO.getByDep(dep));
+            double average = rating / teacherDAO.getByDep(dep).size();
+            ratings.add(new Rating3Model(dep, average, rating));
         }
         return ratings;
     }

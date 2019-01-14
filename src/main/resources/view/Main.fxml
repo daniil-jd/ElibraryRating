@@ -93,76 +93,7 @@
                      <children>
                         <TabPane layoutX="108.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab onSelectionChanged="#onDepRating1" text="Рейтинг 1">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label alignment="TOP_CENTER" layoutX="13.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе интегральной оценки преподавателей." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                           <TableView fx:id="tkTable" layoutX="29.0" layoutY="152.0" prefHeight="332.0" prefWidth="369.0" AnchorPane.leftAnchor="30.0">
-                                               <columns>
-                                                   <TableColumn fx:id="numberTkCol" prefWidth="50.0" text="№">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="number" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                                   <TableColumn fx:id="nameTkCol" prefWidth="200.0" text="ФИО">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="name" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                                   <TableColumn fx:id="ratingTkCol" prefWidth="100.0" text="Рейтинг">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="rating" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                               </columns>
-                                           </TableView>
-                                          <ComboBox fx:id="tkChooser" layoutX="139.0" layoutY="111.0" onAction="#onTkChoose" prefWidth="150.0" />
-                                          <Label layoutX="161.0" layoutY="87.0" text="Выберите кафедру:" />
-                                          <Label fx:id="borderLabel" layoutX="164.0" layoutY="495.0" text="Порог: кафедра не выбрана">
-                                             <font>
-                                                <Font name="System Bold Italic" size="12.0" />
-                                             </font>
-                                          </Label>
-                                           <TableView fx:id="rating1Table" layoutX="493.0" layoutY="152.0" prefHeight="332.0" prefWidth="369.0" AnchorPane.rightAnchor="30.0">
-                                               <columns>
-                                                <TableColumn fx:id="numberRatingCol" prefWidth="28.0" text="№">
-                                                   <cellValueFactory>
-                                                      <PropertyValueFactory property="number" />
-                                                   </cellValueFactory>
-                                                </TableColumn>
-                                                   <TableColumn fx:id="depRatingCol" prefWidth="84.0" text="Кафедра">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="dep" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                                   <TableColumn fx:id="sumRatingCol" prefWidth="115.0" text="Сумма &#10;рейтингов &#10;преподавателей">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="sum" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                                   <TableColumn fx:id="borderRatingCol" prefWidth="55.0" text="Порог">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="border" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                                   <TableColumn fx:id="ratRatingCol" prefWidth="64.0" text="Рейтинг">
-                                                       <cellValueFactory>
-                                                           <PropertyValueFactory property="rating" />
-                                                       </cellValueFactory>
-                                                   </TableColumn>
-                                               </columns>
-                                           </TableView>
-                                          <Label layoutX="633.0" layoutY="115.0" text="Рейтинг кафедр:" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                            <Tab onSelectionChanged="#onDepRating2" text="Рейтинг 2">
+                            <Tab onSelectionChanged="#onDepRating2" text="Рейтинг 1">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -171,39 +102,37 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе на основе среднего рейтинга кафедры ВУЗа. Для оценки кафедры используются рейтинги преподавателей." textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                          <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе интегральной оценки преподавателей." textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
                                           <TableView fx:id="rating2Table" layoutX="51.0" layoutY="91.0" prefHeight="427.0" prefWidth="864.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                                               <columns>
-                                                  <TableColumn fx:id="numberRatings2" prefWidth="75.0" text="№">
+                                                  <TableColumn fx:id="numberRatings2" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" text="№">
                                                       <cellValueFactory>
                                                           <PropertyValueFactory property="number" />
                                                       </cellValueFactory>
                                                   </TableColumn>
-                                                  <TableColumn prefWidth="180.0" text="Кафедра">
+                                                  <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Кафедра">
                                                       <cellValueFactory>
                                                           <PropertyValueFactory property="dep" />
                                                       </cellValueFactory>
                                                   </TableColumn>
-                                                  <TableColumn fx:id="rating2AverCol" prefWidth="153.0" text="Средний рейтинг">
+                                                  <TableColumn fx:id="rating2AverCol" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Средний рейтинг">
                                                       <cellValueFactory>
                                                           <PropertyValueFactory property="average" />
                                                       </cellValueFactory>
                                                   </TableColumn>
-                                                  <TableColumn fx:id="rating2IndivCol" prefWidth="232.0" text="Индивидуальный рейтинг кафедры">
+                                                  <TableColumn fx:id="rating2IndivCol" prefWidth="232.0" text="Интегрированный рейтинг кафедры">
                                                       <cellValueFactory>
                                                           <PropertyValueFactory property="rating" />
                                                       </cellValueFactory>
                                                   </TableColumn>
-                                                  <TableColumn prefWidth="197.0" text="Итоговый рейтинг кафедры">
-                                                      <cellValueFactory>
-                                                          <PropertyValueFactory property="mark" />
-                                                      </cellValueFactory>
-                                                  </TableColumn>
                                             </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
                                           </TableView>
                                        </children>
                                     </AnchorPane>
