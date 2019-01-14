@@ -42,22 +42,22 @@
                               <!--<TableColumn fx:id="dep" prefWidth="136.0" text="Dep">-->
                                  <!--<cellValueFactory><PropertyValueFactory property="dep" /></cellValueFactory>-->
                               <!--</TableColumn>-->
-                              <TableColumn prefWidth="105.0" text="X1" fx:id="x1Column">
+                              <TableColumn prefWidth="105.0" text="H1" fx:id="x1Column">
                                   <cellValueFactory>
                                     <PropertyValueFactory property="x1" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn prefWidth="96.0" text="X2" fx:id="x2Column">
+                              <TableColumn prefWidth="96.0" text="H2" fx:id="x2Column">
                                   <cellValueFactory>
                                     <PropertyValueFactory property="x2" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn prefWidth="91.0" text="X3" fx:id="x3Column">
+                              <TableColumn prefWidth="91.0" text="H3" fx:id="x3Column">
                                   <cellValueFactory>
                                     <PropertyValueFactory property="x3" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn minWidth="4.0" prefWidth="84.0" text="X4" fx:id="x4Column">
+                              <TableColumn minWidth="4.0" prefWidth="84.0" text="H4" fx:id="x4Column">
                                   <cellValueFactory>
                                     <PropertyValueFactory property="x4" />
                                  </cellValueFactory>
@@ -76,10 +76,10 @@
                         <TextField fx:id="mas3" alignment="TOP_CENTER" layoutX="738.0" layoutY="155.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
                         <TextField fx:id="mas4" alignment="TOP_CENTER" layoutX="738.0" layoutY="185.0" prefHeight="25.0" prefWidth="47.0" promptText="1.0" />
                         <Label layoutX="776.0" layoutY="74.0" text="Задайте веса:" />
-                        <Label layoutX="832.0" layoutY="102.0" text="для X1" />
-                        <Label layoutX="832.0" layoutY="131.0" text="для X2" />
-                        <Label layoutX="832.0" layoutY="159.0" text="для X3" />
-                        <Label layoutX="832.0" layoutY="189.0" text="для X4" />
+                        <Label layoutX="832.0" layoutY="102.0" text="для H1" />
+                        <Label layoutX="832.0" layoutY="131.0" text="для H2" />
+                        <Label layoutX="832.0" layoutY="159.0" text="для H3" />
+                        <Label layoutX="832.0" layoutY="189.0" text="для H4" />
                         <Label layoutX="755.0" layoutY="230.0" prefHeight="39.0" prefWidth="116.0" text="Выберите методику оценки: " textAlignment="CENTER" wrapText="true" />
                         <ComboBox fx:id="ratingChooser" layoutX="738.0" layoutY="274.0" onAction="#onRatingChooser" prefWidth="150.0" promptText="Интегральная" />
                         <Button layoutX="775.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCalculate" text="Рассчитать" />
@@ -97,7 +97,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе интегральной оценки преподавателей с использованием порога. Для оценки кафедры используется порог, с помощью которого выделяются наиболее активные преподаватели кафедры. Порог выбирается как среднее значение рейтинга преподавателей." textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                          <Label alignment="TOP_CENTER" layoutX="13.0" layoutY="14.0" prefHeight="61.0" prefWidth="864.0" text="Рейтинг кафедр на основе интегральной оценки преподавателей." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -226,14 +226,14 @@
                         <ListView fx:id="dbView" layoutX="536.0" layoutY="91.0" onMouseClicked="#OnDbViewClick" prefHeight="418.0" prefWidth="376.0" AnchorPane.bottomAnchor="59.0" AnchorPane.rightAnchor="30.0" />
                         <Label layoutX="233.0" layoutY="89.0" text="ФИО" />
                         <TextField fx:id="dbFioFiled" alignment="TOP_CENTER" layoutX="120.0" layoutY="111.0" prefHeight="25.0" prefWidth="252.0" promptText="ФИО" />
-                        <TextField fx:id="dbX1Field" alignment="TOP_CENTER" layoutX="171.0" layoutY="256.0" prefHeight="25.0" prefWidth="150.0" promptText="Х1" />
-                        <Label layoutX="153.0" layoutY="234.0" text="X1 - Индекс Хирша по ядру РИНЦ" />
-                        <Label layoutX="115.0" layoutY="288.0" text="X2 - Индекс Хирша без учета самоцитирований" />
-                        <TextField fx:id="dbX2Field" alignment="TOP_CENTER" layoutX="172.0" layoutY="313.0" promptText="Х2" />
-                        <Label layoutX="97.0" layoutY="345.0" text="X3 - Индекс Хирша с учетом только статей в журналах" />
-                        <TextField fx:id="dbX3Field" alignment="TOP_CENTER" layoutX="173.0" layoutY="368.0" promptText="Х3" />
-                        <TextField fx:id="dbX4Field" alignment="TOP_CENTER" layoutX="174.0" layoutY="429.0" promptText="Х4" />
-                        <Label layoutX="125.0" layoutY="404.0" text="X4 - Индекс Хирша по публикациям в РИНЦ" />
+                        <TextField fx:id="dbX1Field" alignment="TOP_CENTER" layoutX="171.0" layoutY="256.0" prefHeight="25.0" prefWidth="150.0" promptText="H1" />
+                        <Label layoutX="153.0" layoutY="234.0" text="H1 - Индекс Хирша по ядру РИНЦ" />
+                        <Label layoutX="115.0" layoutY="288.0" text="H2 - Индекс Хирша без учета самоцитирований" />
+                        <TextField fx:id="dbX2Field" alignment="TOP_CENTER" layoutX="172.0" layoutY="313.0" promptText="H2" />
+                        <Label layoutX="97.0" layoutY="345.0" text="H3 - Индекс Хирша с учетом только статей в журналах" />
+                        <TextField fx:id="dbX3Field" alignment="TOP_CENTER" layoutX="173.0" layoutY="368.0" promptText="H3" />
+                        <TextField fx:id="dbX4Field" alignment="TOP_CENTER" layoutX="174.0" layoutY="429.0" promptText="H4" />
+                        <Label layoutX="125.0" layoutY="404.0" text="H4 - Индекс Хирша по публикациям в РИНЦ" />
                         <ComboBox fx:id="dbExistDepBox" layoutX="79.0" layoutY="190.0" onAction="#onDbDepChooser" prefHeight="25.0" prefWidth="150.0" promptText="Кафедра" />
                         <Label layoutX="61.0" layoutY="164.0" text="Выбрать существующую кафедру" />
                         <Label alignment="TOP_CENTER" layoutX="485.0" layoutY="21.0" prefHeight="40.0" prefWidth="400.0" text="Для редактирования существующего, выберите его из списка и измените нужные поля." textAlignment="CENTER" wrapText="true">

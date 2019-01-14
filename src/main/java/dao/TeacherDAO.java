@@ -3,7 +3,6 @@ package dao;
 import model.TeacherModel;
 import org.h2.jdbcx.JdbcDataSource;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
